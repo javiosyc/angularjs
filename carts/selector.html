@@ -1,0 +1,42 @@
+<html ng-app>
+  <head>
+    <script src="js/angular.js"></script>
+    <script src="js/selector.js"></script>
+    <script src="http://code.jquery.com/jquery.min.js"></script>
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" type="text/css" />
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+    <title>ng-switch</title>
+  </head>
+  <div ng-controller="SelectorController">
+    <input type="button" value="切換下拉選單" ng-click="switchStage()" />
+    <div id="stage" ng-switch on="stage">
+      <div ng-switch-when="1">
+        <h3>下拉選單 1</h3>
+        <select ng-model="$parent.SelectModel1">
+          <option value="">--請選擇--</option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+        </select>
+        您選擇: <span ng-bind="$parent.SelectModel1"></span>
+      </div>
+      
+      <div ng-switch-when="2">
+        <h3>下拉選單 2</h3>
+        <select ng-model="$parent.SelectModel2">
+          <option value="">--請選擇--</option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+        </select>
+        您選擇: <span ng-bind="$parent.SelectModel2"></span>
+      </div>
+    </div>
+    <ul>
+      <li>您在【下拉選單 1】選取的值為: <span ng-bind="SelectModel1"></span></li>
+      <li>您在【下拉選單 2】選取的值為: <span ng-bind="SelectModel2"></span></li>
+    </ul>
+  </div>
+  <hr>
+</html>

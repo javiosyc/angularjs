@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html ng-app>
+
+<head>
+    <script src="js/angular.js"></script>
+    <script src="js/controller.js"></script>
+    <link href="css/product.css" rel="stylesheet" type="text/css" />
+    <script src="http://code.jquery.com/jquery.min.js"></script>
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" type="text/css" />
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+    <title>Carts</title>
+</head>
+
+<body>
+    <hr>
+    <div ng-controller='ProductController'>
+        購物車
+        <table class='table'>
+            <tr>
+                <td>
+                    <input type="checkbox" ng-model='IsCheckAll' ng-change='checkAll()'>
+                </td>
+                <td>功能</td>
+                <td>#</td>
+                <td>
+                    <a ng-click="addOrderColumn('PName');" href="">商品名稱</a>
+                    <span ng-hide="isOrderColumn('PName','-');" href="">↓</span>
+                    <span href="" ng-hide="isOrderColumn('PName','+');">↑</span>
+                </td>
+                <td>
+                    <a ng-click="addOrderColumn('Price');" href="">商品價格</a>
+                    <span ng-hide="isOrderColumn('Price','-');" href="">↓</span>
+                    <span href="" ng-hide="isOrderColumn('Price','+');">↑</span>
+                </td>
+                <td>
+                    <a ng-click="addOrderColumn('Qty');" href="">購買數量</a>
+                    <span ng-hide="isOrderColumn('Qty','-');" href="">↓</span>
+                    <span href="" ng-hide="isOrderColumn('Qty','+');">↑</span>
+                </td>
+                <td>
+                    <a ng-click="addOrderColumn('SubTotal');" href="">小計</a>
+                    <span ng-hide="isOrderColumn('SubTotal','-');" href="">↓</span>
+                    <span href="" ng-hide="isOrderColumn('SubTotal','+');">↑</span>
+                </td>
+            </tr>
+            <tr ng-repeat='item in carts|orderBy:getOrder()' ng-class="{bg:$even,highlitgh:IsHighlight}" ng-mouseover="IsHighlight=true" ng-mouseleave="IsHighlight=false">
+                <td>
+                    <input type="checkbox" ng-model="item.isDeleted">
+                </td>
+                <td>
+                    <button ng-click='del(item)'>Del</button>
+                </td>
+                <td>{{$index+1}}</td>
+                <td>{{item.PName}}</td>
+                <td>{{item.Price}}</td>
+                <td>
+                    <div ng-click='edit(item);'>
+                        <span ng-hide='IsEdit(item)'>{{item.Qty}}</span>
+                    </div>
+                    <input type="number" ng-show='IsEdit(item)' ng-model='item.Qty2' ng-keyup='done($event,item)' class="input-mini">
+                </td>
+                <td>$NT
+                    <span ng-bind="sub_total(item.Qty,item.Price,item)|number">計算中...</span>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button ng-click="batchDel()">批次刪除</button>
+                </td>
+                <td>
+                    <button ng-click="clearOrderBy()">清除排序</button>
+                </td>
+                <td></td>
+                <td></td>
+                <td>總計：</td>
+                <td>$NT{{total()|number}}</td>
+            </tr>
+        </table>
+        <hr>{{HTMLString}}
+        <br>商品名稱 ：
+        <input type="text" ng-model="cart_item.PName">
+        <br>數量 ：
+        <input type="number" ng-model="cart_item.Qty">
+        <br>價格 ：
+        <input type="number" ng-model="cart_item.Price">
+        <br>購買商品： {{cart_item.PName}}，數量： {{cart_item.Qty}} 價格 {{cart_item.Price}}元
+        <br>共 {{cart_item.Qty * cart_item.Price | currency }}
+        <br>
+        <button type="text" ng-click="add()">add</button>
+        <hr>啟用
+        <input type="checkbox" ng-model="IsDebug">
+        <pre ng-show='IsDebug'>
+            {{carts|json}} {{orderBy|json}} {{orderByColumns|json}}
+        </pre>
+        <hr>
+    </div>
+</body>
+
+</html>
