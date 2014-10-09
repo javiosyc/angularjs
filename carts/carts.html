@@ -17,6 +17,10 @@
     <div ng-controller='ProductController'>
         購物車
         <table class='table'>
+            <caption>
+                搜尋:
+                <input type="text" ng-model="keyword">
+            </caption>
             <tr>
                 <td>
                     <input type="checkbox" ng-model='IsCheckAll' ng-change='checkAll()'>
@@ -44,7 +48,7 @@
                     <span href="" ng-hide="isOrderColumn('SubTotal','+');">↑</span>
                 </td>
             </tr>
-            <tr ng-repeat='item in carts|orderBy:getOrder()' ng-class="{bg:$even,highlitgh:IsHighlight}" ng-mouseover="IsHighlight=true" ng-mouseleave="IsHighlight=false">
+            <tr ng-repeat='item in carts|orderBy:getOrder()|filter:{"PName":keyword}' ng-class="{bg:$even,highlitgh:IsHighlight}" ng-mouseover="IsHighlight=true" ng-mouseleave="IsHighlight=false">
                 <td>
                     <input type="checkbox" ng-model="item.isDeleted">
                 </td>
